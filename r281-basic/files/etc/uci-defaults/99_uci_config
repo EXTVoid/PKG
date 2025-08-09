@@ -3,7 +3,7 @@
 # Copyright (c) 2023 LENAR
 #
 
-RN=$(( (RANDOM % 51) * 5 + 5 ))
+# RN=$(( (RANDOM % 51) * 5 + 5 ))
 
 uci -q batch <<-EOF >/dev/null
   # Set system properties
@@ -24,13 +24,13 @@ uci -q batch <<-EOF >/dev/null
   set luci.main.lang="auto"
 
   # Change LAN IP Address
-  set network.lan.ipaddr="192.168.${RN}.1"
+  # set network.lan.ipaddr="192.168.${RN}.1"
 
   # Apply changes
   commit system
   commit ntp
   commit luci
-  commit network
+  # commit network
 EOF
 
 exit 0
