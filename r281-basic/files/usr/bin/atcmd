@@ -3,7 +3,7 @@
 # Copyright (c) 2023 LENAR
 
 ACM_PATTERN="ttyACM*"
-ACM=$(find /dev -name "$ACM_PATTERN" | head -n1)
+ACM=$(find /dev -name "$ACM_PATTERN" | sort | head -n1)
 ARG_AT="$1"
 
 show_usage() {
