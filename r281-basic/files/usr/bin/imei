@@ -61,9 +61,7 @@ delete_imei() {
         check_imei
         if ! [ -n "$CHECK_IMEI" ]; then
             echo "IMEI successfully deleted."
-            if prod_disable; then
-                reboot_cp
-            fi
+            prod_disable
         else
             error_exit "Failed to delete IMEI."
         fi
