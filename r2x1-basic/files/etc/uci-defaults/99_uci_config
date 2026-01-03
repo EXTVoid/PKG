@@ -7,9 +7,9 @@
 
 uci -q batch <<-EOF >/dev/null
   # Set system properties
-  # set system.@system[0].hostname="Notion"
-  # set system.@system[0].conloglevel="7"
-  # set system.@system[0].cronloglevel="8"
+  set system.@system[0].hostname="Notion"
+  set system.@system[0].conloglevel="7"
+  set system.@system[0].cronloglevel="8"
 
   # Configure NTP servers
   del system.ntp.server
@@ -27,7 +27,7 @@ uci -q batch <<-EOF >/dev/null
   # set network.lan.ipaddr="192.168.${RN}.1"
 
   # Apply changes
-  # commit system
+  commit system
   commit ntp
   commit luci
   # commit network
