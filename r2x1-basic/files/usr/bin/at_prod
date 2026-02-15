@@ -21,7 +21,7 @@ error_exit() {
 }
 
 get_production_status() {
-    if ! OUTPUT=$(atcmd "AT*PROD?" 2>/dev/null); then
+    if ! OUTPUT=$(at_cmd "AT*PROD?" 2>/dev/null); then
         error_exit "Failed to retrieve production status."
     else
         PROD_MODE=$(echo "$OUTPUT" | awk -F':' '/^\*PROD/ {print $2}' | xargs)
@@ -39,11 +39,11 @@ set_production_mode() {
         D|d) ARG_MODE="0" ;;
         E|e) ARG_MODE="2" ;;
     esac
-    if ! atcmd "AT*PROD=$ARG_MODE" >/dev/null 2>&1; then
+    if ! at_cmd "AT*PROD=$ARG_MODE" >/dev/null 2>&1; then
         error_exit "Failed to set production mode."
     else
         echo "Production mode changed. System will reboot..."
-        if ! atexe "reboot" >/dev/null 2>&1; then
+        if ! at_exe "reboot" >/dev/null 2>&1; then
             error_exit "Reboot command failed. Restart device manually."
         fi
     fi
