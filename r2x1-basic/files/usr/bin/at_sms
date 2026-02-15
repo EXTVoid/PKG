@@ -25,7 +25,7 @@ change_location(){
         D|d) ARG_LOCATION="0" ;;
         S|s) ARG_LOCATION="1" ;;
     esac
-    if ! atexe "printf 'config SMS SMS\noption report 0\noption save_location $ARG_LOCATION\noption over_mode 0\noption validity 143\noption center_num N' > /etc/config/smsconfig" >/dev/null 2>&1; then
+    if ! at_exe "printf 'config SMS SMS\noption report 0\noption save_location $ARG_LOCATION\noption over_mode 0\noption validity 143\noption center_num N' > /etc/config/smsconfig" >/dev/null 2>&1; then
         error_exit "Failed to update SMS configuration."
     else
         case "$ARG_LOCATION" in
@@ -37,7 +37,7 @@ change_location(){
 }
 
 check_location(){
-    SMSCONFIG=$(atexe "cat /etc/config/smsconfig" | awk '/save_location/ {print $3}' | xargs)
+    SMSCONFIG=$(at_exe "cat /etc/config/smsconfig" | awk '/save_location/ {print $3}' | xargs)
     if [ -z "$SMSCONFIG" ]; then
         error_exit "Unable to read the configuration file. Please ensure it exists and is readable."
     else
