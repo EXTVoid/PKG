@@ -4,15 +4,15 @@
 #
 
 C2G=$(( 1 + (RANDOM % 3) * 5 ))
-C5G=$(( 36 + (RANDOM % 3) * 4 ))
+C5G=$(( 36 + (RANDOM % 4) * 4 ))
 MD5=$(head /dev/mtd2 | md5sum | cut -c-6)
 
 for RADIO in "radio0" "radio1"
 do
   uci -q get wireless."$RADIO" || continue
-  # SSID=$(uci -q get wireless.default_$RADIO.ssid)
+  SSID=$(uci -q get wireless.default_$RADIO.ssid)
   BAND=$(uci -q get wireless.$RADIO.band)
-  # [ "$SSID" != "OpenWrt" ] && continue
+  [ "$SSID" != "OpenWrt" ] && continue
   uci set wireless."$RADIO".disabled="0"
   uci set wireless."$RADIO".country="US"
   uci set wireless."$RADIO".cell_density="0"
