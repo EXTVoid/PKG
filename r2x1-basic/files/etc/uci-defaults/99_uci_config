@@ -9,7 +9,7 @@ uci -q batch <<-EOF >/dev/null
   # Set system properties
   set system.@system[0].hostname="Notion"
   set system.@system[0].conloglevel="7"
-  set system.@system[0].cronloglevel="8"
+  set system.@system[0].cronloglevel="7"
 
   # Configure NTP servers
   del system.ntp.server
