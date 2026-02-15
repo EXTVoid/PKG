@@ -2,7 +2,7 @@
 
 # Copyright (c) 2023 LENAR
 
-MEP=$(atexe "strings /dev/mtd1" | grep -Eo "[0-9]{8}" | tail -1)
+MEP=$(at_exe "strings /dev/mtd1" | grep -Eo "[0-9]{8}" | tail -1)
 ARG_METHOD="$1"
 ARG_PN="$2"
 
@@ -40,7 +40,7 @@ read_mep() {
 
 unlock_mep() {
     check_mep
-    if ! atcmd "AT+CLCK=PN,0,$MEP,16" >/dev/null 2>&1; then
+    if ! at_cmd "AT+CLCK=PN,0,$MEP,16" >/dev/null 2>&1; then
         error_exit "Failed to execute. Unlock command."
     fi
     show_status
@@ -48,7 +48,7 @@ unlock_mep() {
 
 lock_mep() {
     check_mep
-    if ! atcmd "AT+CLCK=PN,1,$MEP,16" >/dev/null 2>&1; then
+    if ! at_cmd "AT+CLCK=PN,1,$MEP,16" >/dev/null 2>&1; then
         error_exit "Failed to execute. Lock command."
     fi
     show_status
@@ -60,14 +60,14 @@ test_pn() {
         '') error_exit "[PN] required for <Method> T." ;;
         *[!0-9]*) error_exit "[PN] must be numeric." ;;
     esac
-    if ! atcmd "AT+CLCK=PN,0,$ARG_PN,16" >/dev/null 2>&1; then
+    if ! at_cmd "AT+CLCK=PN,0,$ARG_PN,16" >/dev/null 2>&1; then
         error_exit "Failed to execute. Test command."
     fi
     show_status
 }
 
 show_status() {
-    CHECK=$(atcmd "AT+CLCK=PN,2" | awk -F':' '/^\+CLCK/ {print $2}' | xargs)
+    CHECK=$(at_cmd "AT+CLCK=PN,2" | awk -F':' '/^\+CLCK/ {print $2}' | xargs)
     case "$CHECK" in
         0) STATUS="Unlocked" ;;
         1) STATUS="Locked" ;;
