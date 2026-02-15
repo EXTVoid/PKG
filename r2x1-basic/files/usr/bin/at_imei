@@ -38,24 +38,24 @@ validate_imei() {
 }
 
 check_imei() {
-    CHECK_IMEI=$(atcmd "AT*MRD_IMEI?" | awk -F: '/^\*MRD_IMEI/ {print $2}' | xargs)
+    CHECK_IMEI=$(at_cmd "AT*MRD_IMEI?" | awk -F: '/^\*MRD_IMEI/ {print $2}' | xargs)
 }
 
 prod_enable() {
-    if ! atexe "serial_atcmd AT*PROD=2" >/dev/null 2>&1; then
+    if ! at_exe "serial_atcmd AT*PROD=2" >/dev/null 2>&1; then
         error_exit "Production failed to enable."
     fi
 }
 
 prod_disable() {
-    if ! atexe "serial_atcmd AT*PROD=0" >/dev/null 2>&1; then
+    if ! at_exe "serial_atcmd AT*PROD=0" >/dev/null 2>&1; then
     error_exit "Production failed to disable."
     fi
 }
 
 delete_imei() {
     prod_enable
-    if ! output=$(atcmd "AT*MRD_IMEI=D"); then
+    if ! output=$(at_cmd "AT*MRD_IMEI=D"); then
         error_exit "Failed to execute. Delete operation."
     else
         check_imei
@@ -75,7 +75,7 @@ write_update_imei() {
         U|u) ACTION="Update" ;;
         W|w) ACTION="Write" ;;
     esac
-    if ! output=$(atcmd "AT*MRD_IMEI=$ARG_METHOD,0101,12NOV2010,$ARG_IMEI"); then
+    if ! output=$(at_cmd "AT*MRD_IMEI=$ARG_METHOD,0101,12NOV2010,$ARG_IMEI"); then
         error_exit "Failed to execute. $ACTION operation."
     else
         check_imei
@@ -91,7 +91,7 @@ write_update_imei() {
 }
 
 read_check_imei() {
-    READ_IMEI=$(atcmd "AT*MRD_IMEI=R" | awk '/^\*MRD_IMEI/ {print}' | cut -c11- | xargs)
+    READ_IMEI=$(at_cmd "AT*MRD_IMEI=R" | awk '/^\*MRD_IMEI/ {print}' | cut -c11- | xargs)
     check_imei
     case "$ARG_METHOD" in
         R|r) RESULT="$READ_IMEI" ;;
@@ -105,7 +105,7 @@ read_check_imei() {
 }
 
 reboot_cp() {
-    if atexe "reboot" >/dev/null 2>&1; then
+    if at_exe "reboot" >/dev/null 2>&1; then
         echo "System will reboot..."
     else
         error_exit "Reboot command failed. Restart device manually."
