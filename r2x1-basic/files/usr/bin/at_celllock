@@ -108,7 +108,7 @@ disable_celllock() {
     echo "Status: ${RESULT}"
     case "$CHECK" in
         1|2)
-            if ! atcmd "AT*CELL=0" >/dev/null 2>&1; then
+            if ! at_cmd "AT*CELL=0" >/dev/null 2>&1; then
                 error_exit "Failed to disable lock."
             else
                 restart_wwan
