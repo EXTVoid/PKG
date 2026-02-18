@@ -6,7 +6,7 @@
 C2G=$(( 1 + (RANDOM % 3) * 5 ))
 C5G=$(( 36 + (RANDOM % 4) * 4 ))
 MD5=$(head /dev/mtd2 | md5sum | cut -c-6)
-ODR=$(awk -F"'" '/DISTRIB_RELEASE/{gsub(/[^0-9].*$/,"",$2);print $2}' /etc/openwrt_release)
+ODR=$(awk -F"'" '/DISTRIB_RELEASE/ {gsub(/[^0-9].*$/, "", $2); print $2}' /etc/openwrt_release)
 
 for RADIO in "radio0" "radio1"
 do
