@@ -4,11 +4,11 @@
 #
 
 # RN=$(( (RANDOM % 51) * 5 + 5 ))
-HN=$(dmesg | sed -n 's/.*MIPS: machine is \(.*\)/\1/p' | tr ' ' '-')
+HN=$(dmesg | sed -n 's/.*MIPS: machine is \(.*\)/\1/p' | tr ' ' '.')
 
 uci -q batch <<-EOF >/dev/null
   # Set system properties
-  set system.@system[0].hostname="$(HN)"
+  set system.@system[0].hostname="${HN}"
   set system.@system[0].conloglevel="7"
   set system.@system[0].cronloglevel="7"
   set system.@system[0].zram_comp_algo='lz4'
