@@ -4,21 +4,24 @@
 #
 
 # RN=$(( (RANDOM % 51) * 5 + 5 ))
+HN=$(dmesg | sed -n 's/.*MIPS: machine is \(.*\)/\1/p' | tr ' ' '-')
 
 uci -q batch <<-EOF >/dev/null
   # Set system properties
-  set system.@system[0].hostname="Notion"
+  set system.@system[0].hostname="$(HN)"
   set system.@system[0].conloglevel="7"
   set system.@system[0].cronloglevel="7"
+  set system.@system[0].zram_comp_algo='lz4'
+  set system.@system[0].clock_hourcycle='h12'
 
   # Configure NTP servers
   del system.ntp.server
-  add_list system.ntp.server="africa.pool.ntp.org"
-  add_list system.ntp.server="asia.pool.ntp.org"
-  add_list system.ntp.server="europe.pool.ntp.org"
-  add_list system.ntp.server="north-america.pool.ntp.org"
-  add_list system.ntp.server="oceania.pool.ntp.org"
-  add_list system.ntp.server="south-america.pool.ntp.org"
+  add_list system.ntp.server="time.cloudflare.com"
+  add_list system.ntp.server="time.google.com"
+  add_list system.ntp.server="0.pool.ntp.org"
+  add_list system.ntp.server="1.pool.ntp.org"
+  add_list system.ntp.server="2.pool.ntp.org"
+  add_list system.ntp.server="3.pool.ntp.org"
 
   # Luci language
   set luci.main.lang="auto"
